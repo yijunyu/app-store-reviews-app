@@ -116,13 +116,13 @@ def read_fbs(input_filename, output_filename):
 #               print "%s,%d" % (reviews.PackageName(), reviews.AppVersionCode())
 
 def read_pb(input_filename, output_filename):
-    rev = review.Review()
+    data = review.Data()
     with open(input_filename, 'rb') as f:
-       buf = f.read()
-       rev.ParseFromString(f.read())
+       data.ParseFromString(f.read())
        f.close()
-       print "%s,%d" % (rev.PackageName(), rev.AppVersionCode())
-
+       reviews = data.review
+#       for rev in reviews:
+#           print "%s,%d" % (rev.package_name, rev.app_version_code)
 
 def write_fbs(f, csv_in):
        builder = flatbuffers.Builder(0)
@@ -146,12 +146,16 @@ def write_fbs(f, csv_in):
        f.write(gen_buf[gen_off:])
 
 def write_pb(f, csv_in):
+       data = review.Data()
+       reviews = data.review
        for row in csv_in:
            rev = read_record_as_pb(row)
            if rev:
-               serializedMessage = rev.SerializeToString()
-               delimiter = encoder._VarintBytes(len(serializedMessage))
-               f.write(delimiter + serializedMessage)
+               reviews.extend([rev])
+       serializedMessage = data.SerializeToString()
+       #delimiter = encoder._VarintBytes(len(serializedMessage))
+       #f.write(delimiter + serializedMessage)
+       f.write(serializedMessage)
 
 if __name__ == "__main__":
        if (os.path.exists(sys.argv[2])):
@@ -161,4 +165,6 @@ if __name__ == "__main__":
            read_csv(sys.argv[1], sys.argv[2])
        if (input_extension == ".fbs"):
            read_fbs(sys.argv[1], sys.argv[2])
+       if (input_extension == ".pb"):
+           read_pb(sys.argv[1], sys.argv[2])
 

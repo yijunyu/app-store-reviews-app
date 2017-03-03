@@ -1,10 +1,35 @@
-INPUT=../ExampleReviews/kiwix/reviews_org.kiwix.kiwixmobile_201606.csv
-OUTPUT=result.pb result.fbs result.txt
+#INPUT=../ExampleReviews/kiwix/reviews_org.kiwix.kiwixmobile_201606.csv
+INPUT=all.csv
+OUTPUT=result.pb result.fbs result_fbs.txt result_pb.txt
 
 all: $(OUTPUT)
 
-result.txt: read.py result.fbs
-	/usr/bin/time python $^ read.txt 
+all.csv: head.csv all32.csv
+	cat $^ > $@
+
+head.csv: ../ExampleReviews/kiwix/reviews_org.kiwix.kiwixmobile_201606.csv
+	head -1 $^ > $@
+
+all2.csv: all1.csv
+	cat $^ $^ > $@
+
+all4.csv: all2.csv
+	cat $^ $^ > $@
+
+all8.csv: all4.csv
+	cat $^ $^ > $@
+
+all16.csv: all8.csv
+	cat $^ $^ > $@
+
+all32.csv: all16.csv
+	cat $^ $^ > $@
+
+result_fbs.txt: read.py result.fbs
+	/usr/bin/time python $^ $@
+
+result_pb.txt: read.py result.pb
+	/usr/bin/time python $^ $@
 
 result.pb: read.py $(INPUT)
 	/usr/bin/time python $^ result.pb 
