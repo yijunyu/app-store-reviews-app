@@ -1,18 +1,16 @@
-namespace review;
+// Generated from review.proto
 
-table Data {
-  review: [Review];
-}
+namespace _review;
 
 table Review {
-  package_name:string (required);
+  package_name:string;
   app_version_code:int;
   app_version_name:string;
-  reviewer_language:string (required);
-  device:string (required);
-  review_submit_date_and_time:string (required);
+  reviewer_language:string;
+  device:string;
+  review_submit_date_and_time:string;
   review_submit_millis_since_epoch:long;
-  review_last_update_date_and_time:string (required);
+  review_last_update_date_and_time:string;
   review_last_update_millis_since_epoch:long;
   review_star_rating:int;
   review_title:string;
@@ -23,4 +21,7 @@ table Review {
   review_link:string;
 }
 
-root_type Data;
+table Data {
+  review:[_review.Review];
+}
+

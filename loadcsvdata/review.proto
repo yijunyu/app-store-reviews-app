@@ -1,20 +1,26 @@
+syntax = "proto3";
+
 package review;
 
 message Review {
-   required bytes package_name = 1;
-   optional int32 app_version_code = 2;
-   optional bytes app_version_name = 3;
-   required bytes reviewer_language = 4;
-   required bytes device = 5;
-   required bytes review_submit_date_and_time = 6;
-   required int64 review_submit_millis_since_epoch = 7;
-   required bytes review_last_update_date_and_time = 8;
-   required int64 review_last_update_millis_since_epoch = 9;
-   required int32 review_star_rating = 10;
-   optional bytes review_title = 11;
-   optional bytes review_text = 12;
-   optional bytes developer_reply_data_and_time = 13;
-   optional int64 developer_reply_millis_since_epoch = 14;
-   optional bytes developer_reply_text = 15;
-   optional bytes review_link = 16;
+   bytes package_name = 1;
+   int32 app_version_code = 2;
+   bytes app_version_name = 3;
+   bytes reviewer_language = 4;
+   bytes device = 5;
+   bytes review_submit_date_and_time = 6;
+   int64 review_submit_millis_since_epoch = 7;
+   bytes review_last_update_date_and_time = 8;
+   int64 review_last_update_millis_since_epoch = 9;
+   int32 review_star_rating = 10;
+   bytes review_title = 11;
+   bytes review_text = 12;
+   bytes developer_reply_data_and_time = 13;
+   int64 developer_reply_millis_since_epoch = 14;
+   bytes developer_reply_text = 15;
+   bytes review_link = 16;
+}
+
+message Data {
+  repeated Review review = 1;
 }

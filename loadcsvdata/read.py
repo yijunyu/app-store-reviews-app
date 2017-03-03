@@ -3,8 +3,8 @@ import os
 import csv
 import review_pb2 as review
 from google.protobuf.internal import encoder
-from review.Review import *
-from review.Data import *
+from _review.Review import *
+from _review.Data import *
 import flatbuffers
 
 def read_record_as_fbs(builder, row):
@@ -114,6 +114,15 @@ def read_fbs(input_filename, output_filename):
            reviews = data.Review(i)
 #           if reviews:
 #               print "%s,%d" % (reviews.PackageName(), reviews.AppVersionCode())
+
+def read_pb(input_filename, output_filename):
+    rev = review.Review()
+    with open(input_filename, 'rb') as f:
+       buf = f.read()
+       rev.ParseFromString(f.read())
+       f.close()
+       print "%s,%d" % (rev.PackageName(), rev.AppVersionCode())
+
 
 def write_fbs(f, csv_in):
        builder = flatbuffers.Builder(0)

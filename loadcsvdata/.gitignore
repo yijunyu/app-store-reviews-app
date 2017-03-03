@@ -1,0 +1,4 @@
+*.pyc
+_review
+review_pb2.py
+review.fbs
