@@ -25,4 +25,5 @@ review_pb2.py: review.proto
 	protoc -I=. --python_out=. review.proto
 
 clean::
-	rm -rf $(OUTPUT)
+	git ls-files -o | xargs rm -rf
+	rm -rf _review
