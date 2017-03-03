@@ -10,6 +10,9 @@ all.csv: head.csv all32.csv
 head.csv: ../ExampleReviews/kiwix/reviews_org.kiwix.kiwixmobile_201606.csv
 	head -1 $^ > $@
 
+all1.csv: $(wildcard ../ExampleReviews/kiwix/*.csv)
+	cat $^ | iconv -f utf-16 -t utf-8 | grep -v "Package Name" > $@
+
 all2.csv: all1.csv
 	cat $^ $^ > $@
 
@@ -25,19 +28,19 @@ all16.csv: all8.csv
 all32.csv: all16.csv
 	cat $^ $^ > $@
 
-result_fbs.txt: read.py result.fbs
+result_fbs.txt: transform.py result.fbs
 	/usr/bin/time python $^ $@
 
-result_pb.txt: read.py result.pb
+result_pb.txt: transform.py result.pb
 	/usr/bin/time python $^ $@
 
-result.pb: read.py $(INPUT)
+result.pb: transform.py $(INPUT)
 	/usr/bin/time python $^ result.pb 
 
-result.fbs: read.py $(INPUT)
+result.fbs: transform.py $(INPUT)
 	/usr/bin/time python $^ result.fbs
 
-read.py: review_pb2.py review/Data.py
+transform.py: review_pb2.py review/Data.py
 	touch $@
 
 review.fbs: review.proto
