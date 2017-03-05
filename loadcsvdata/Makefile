@@ -1,10 +1,10 @@
 #INPUT=../ExampleReviews/kiwix/reviews_org.kiwix.kiwixmobile_201606.csv
 INPUT=all.csv
-OUTPUT=result.pb result.fbs result_fbs.txt result_pb.txt
+OUTPUT=result.pb result.fbs result_fbs.txt result_pb.json
 
 all: $(OUTPUT)
 
-all.csv: head.csv all32.csv
+all.csv: head.csv all1.csv #all32.csv
 	cat $^ > $@
 
 head.csv: ../ExampleReviews/kiwix/reviews_org.kiwix.kiwixmobile_201606.csv
@@ -31,7 +31,7 @@ all32.csv: all16.csv
 result_fbs.txt: transform.py result.fbs
 	/usr/bin/time python $^ $@
 
-result_pb.txt: transform.py result.pb
+result_pb.json: transform.py result.pb
 	/usr/bin/time python $^ $@
 
 result.pb: transform.py $(INPUT)

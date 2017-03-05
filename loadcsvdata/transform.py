@@ -2,6 +2,7 @@ import sys
 import os
 import csv
 import review_pb2 as review
+from pbjson import pb2json
 from google.protobuf.internal import encoder
 from _review.Review import *
 from _review.Data import *
@@ -120,7 +121,10 @@ def read_pb(input_filename, output_filename):
     with open(input_filename, 'rb') as f:
        data.ParseFromString(f.read())
        f.close()
-       reviews = data.review
+       with open(output_filename, 'w') as out:
+           out.write(pb2json(data))
+           out.close()
+#       reviews = data.review
 #       for rev in reviews:
 #           print "%s,%d" % (rev.package_name, rev.app_version_code)
 
